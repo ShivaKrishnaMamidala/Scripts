@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<project name="Claims deployment" basedir="." default="deploy">
+
+<property file="input.properties"/>
+<property name="src" value="${ftp.path}"/>
+<property name="dest" value="${deploy.path}"/>
+	<echo> FTP Path ${ftp.path}</echo>
+	<echo> Deploy path ${deploy.path}</echo>
+
+
+	<target name="deploy" depends="unzip">
+		<copy todir="${dest}">
+			<fileset dir="${src}">
+				<exclude name="*.exe.config"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="unzip" depends="clean">
+	</target>
+	
+	<target name="clean" depends="backup">
+		<delete dir="Claims System"/>
+		<echo> succefully cleaned </echo>
+	</target>
+
+	<target name="backup">
+		<zip destfile="${backup_loc}.zip">
+			<zipfileset dir="${dest}"/>
+		</zip>
+	</target>	
+	
+</project>
